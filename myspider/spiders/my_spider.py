@@ -1,4 +1,5 @@
 import scrapy
+from myspider.items import MyspiderItem
 
 class myspider(scrapy.Spider):
 
@@ -9,7 +10,27 @@ class myspider(scrapy.Spider):
     ]
 
     def parse(self, response):
-        
+        r = response.xpath('//div[@class="mw-parser-output"]//tr')
+        pmItem = MyspiderItem()
+        for i in range(len(r)):
+            try:
+                rlist = r[i].xpath('td')
+                newlist = []
+                for j in range(4):
+                    if j == 0:
+                        templist = []
+                        templist.append(rlist[j].xpath('text()').extract()[0].strip('\n'))
+                        newlist.append(templist)
+                    else:
+                        newlist.append(rlist[j].xpath('a//text()').extract())
+                pmItem["pm_item"] = newlist
+                yield pmItem
+            except IndexError:
+                continue
+            
+
+
+        '''
         r = response.xpath('//div[@class="mw-parser-output"]//tr')
         pmlist = []
         for i in range(len(r)):
@@ -37,7 +58,8 @@ class myspider(scrapy.Spider):
                 f.write(' '.join(nlist) + '\n')
             f.close()
         self.log("Write Finished!")
-        
+        '''
+
         '''
         r = response.xpath('//div[@class="mw-parser-output"]//tr')[5]
         rlist = r.xpath('td')
