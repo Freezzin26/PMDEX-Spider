@@ -29,5 +29,5 @@ class MyspiderPipeline(object):
             conn.commit()
             cur.close()
         except Exception:
-            logging.log("Error!!!")
+            logging.log(Warning, "Error!")
         return item
