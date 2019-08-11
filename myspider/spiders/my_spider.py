@@ -37,6 +37,7 @@ class myspider(scrapy.Spider):
         r1 = response.xpath('//td/b/a[@title="属性"]/../following-sibling::table')[0]
         r2 = response.xpath('//td/b/a[@title="特性"]/../following-sibling::table')[0]
         typelist = r1.xpath('tbody//span/a/text()').extract()
+        typelist = list(map(str.strip, typelist))
         pmItem["pm_Type"] = typelist
         pmItem["pm_Abi"] = r2.xpath('tbody//td/a/text()').extract()
         pmItem["pm_HP"] = int(response.xpath('//th[@class="bgl-HP"]/text()').extract_first().strip())
