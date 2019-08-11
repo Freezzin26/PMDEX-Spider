@@ -1,3 +1,4 @@
 *.pyc
-myspider/__pycache__
-myspider/spiders/__pycache__
+*.db
+/myspider/__pycache__
+/myspider/spiders/__pycache__
